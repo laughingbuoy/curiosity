@@ -92,23 +92,23 @@ if (window.localStorage) {
             showCancelButton: true,
             confirmButtonText: 'Submit',
             showLoaderOnConfirm: false,
-            preConfirm(token) {
+            preConfirm: (token) => {
                 return new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        if (token === '') {
-                            reject(new Error('Enter Valid Token'));
-                        } else {
-                            const url = `https://api.github.com/?access_token=${token}`;
-                            axios({
-                                url,
-                                method: 'get',
-                                responseType: 'json',
-                            }).then(() => {
-                                localStorage.setItem('accessToken', token);
-                                resolve();
-                            }).catch(() => reject(new Error('Error: invalid token')));
-                        }
-                    }, 1000);
+                    if (token === '') {
+                        reject('Enter Valid Token');
+                    } else {
+                        const url = 'https://api.github.com/';
+                        axios.get(url, {
+                            headers: {
+                                'Authorization': `token ${token}`
+                            }
+                        })
+                        .then(() => {
+                            localStorage.setItem('accessToken', token);
+                            resolve(token);
+                        })
+                        .catch(() => reject('Error: invalid token'));
+                    }
                 });
             },
             allowOutsideClick: false,
