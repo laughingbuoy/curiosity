@@ -60,21 +60,24 @@ const dataCollector = function dataCollector(response, username) {
 };
 
 const getData = function getData() {
+    console.log("started get data")
     document.getElementById('searching').innerHTML = '<br/>Fetching projects...';
     usersCurrentCall = 0;
     callInProgress = true;
     reqNo += 1;
+    const accessToken = localStorage.getItem('accessToken')
     USERNAMES.forEach((username) => {
         const url = `https://api.github.com/users/${username}/starred?per_page=${projectsPerPage}&page=${reqNo}`;
         axios({
             url,
             method: 'get',
-            headers: {
-                'Authorization': `token ${token}`
+            headers : {
+                "Authorization" : `token ${accessToken}`
             },
             responseType: 'json',
         }).then((response) => {
             dataCollector(response, username);
+        console.log("ended get data")
         }).catch((err) => {
             console.error(err);
         });
