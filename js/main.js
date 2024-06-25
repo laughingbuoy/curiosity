@@ -77,7 +77,6 @@ const getData = function getData() {
             responseType: 'json',
         }).then((response) => {
             dataCollector(response, username);
-        console.log("ended get data")
         }).catch((err) => {
             console.error(err);
         });
