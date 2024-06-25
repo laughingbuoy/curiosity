@@ -19,10 +19,13 @@ const addUsername = function addUsername() {
                     } else {
                         // check for valid username
                         let accessToken = localStorage.getItem('accessToken');
-                        const url = `https://api.github.com/users/${username}?access_token=${accessToken}`;
+                        const url = `https://api.github.com/users/${username}`;
                         axios({
                             url,
                             method: 'get',
+                            headers: {
+                                'Authorization': `token ${accessToken}`
+                            },
                             responseType: 'json',
                         }).then((response) => {
                             resolve();

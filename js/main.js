@@ -65,10 +65,13 @@ const getData = function getData() {
     callInProgress = true;
     reqNo += 1;
     USERNAMES.forEach((username) => {
-        const url = `https://api.github.com/users/${username}/starred?per_page=${projectsPerPage}&access_token=${accessToken}&page=${reqNo}`;
+        const url = `https://api.github.com/users/${username}/starred?per_page=${projectsPerPage}&page=${reqNo}`;
         axios({
             url,
             method: 'get',
+            headers: {
+                'Authorization': `token ${token}`
+            },
             responseType: 'json',
         }).then((response) => {
             dataCollector(response, username);
